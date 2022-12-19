@@ -4,7 +4,6 @@ import Lists from "./components/Lists";
 import Form from "./components/Form";
 
 export default function App() {
-  let inputValue = useRef();
   const [todoData, setTodoData] = useState([
     {
       id: 1,
@@ -18,9 +17,17 @@ export default function App() {
     },
   ]);
   const [value, setValue] = useState("");
+  const inputRef = useRef(null);
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    if (!value) {
+      alert("메모를 입력해주세요.");
+      // console.log(inputRef);
+      inputRef.current.focus();
+      return;
+    }
 
     let newTodo = {
       id: Date.now(),
@@ -34,21 +41,31 @@ export default function App() {
     setValue("");
   };
 
+  const handleDeleteClick = () => {
+    if (window.confirm("Delete All?")) {
+      setTodoData([]);
+    }
+  };
+
   return (
     <div className="flex justify-center w-screen h-screen bg-gray-300">
       <div className="w-full p-6 m-4 bg-white rounded shadow lg:w-3/4 lg:max-w-lg">
         <div className="flex justify-between mb-3">
-          <h1 className="">할 일 목록</h1>
-          {/* <button>Delete All</button> */}
+          <h1 className="">Memo</h1>
+          <button onClick={handleDeleteClick}>Delete All</button>
         </div>
         <Form
           value={value}
           setValue={setValue}
           handleSubmit={handleSubmit}
-          inputValue={inputValue}
+          inputRef={inputRef}
         />
         <div className="w-full my-4 border"></div>
-        <Lists todoData={todoData} setTodoData={setTodoData} />
+        <Lists
+          todoData={todoData}
+          setTodoData={setTodoData}
+          inputRef={inputRef}
+        />
       </div>
     </div>
   );

@@ -1,9 +1,10 @@
 import React from "react";
 
-export default function Form({ value, setValue, handleSubmit, inputValue }) {
+export default function Form({ value, setValue, handleSubmit, inputRef }) {
   const handleChange = (e) => {
     setValue(e.target.value);
   };
+
   return (
     <form action="" onSubmit={handleSubmit} className="flex pt-2">
       <input
@@ -11,7 +12,7 @@ export default function Form({ value, setValue, handleSubmit, inputValue }) {
         name="value"
         className="w-full px-3 py-2 mr-4 text-gray-500 border rounded shadow"
         placeholder="Todo"
-        ref={inputValue}
+        ref={inputRef}
         value={value}
         onChange={handleChange}
       />
